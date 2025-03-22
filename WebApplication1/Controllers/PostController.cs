@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 using WebApplication1.Services;
 
@@ -23,18 +22,25 @@ namespace WebApplication1.Controllers
         {
             var posts = await _postService.GetPostsAsync(userId, title);
 
-            // Return the posts
             return posts;
         }
 
-        // GET: api/posts?userId=1&title=qui%20est%20esse
+        // GET: api/posts/{id}
         [HttpGet("posts/{id}")]
-        public async Task<ActionResult<Post>> GetByIdPosts(int id)
+        public async Task<ActionResult<Post>> GetPostById(int id)
         {
             var post = await _postService.GetPostByIdAsync(id);
 
-            // Return the posts
             return post;
+        }
+
+        // Delete: api/posts/{id}
+        [HttpDelete("posts/{id}")]
+        public async Task<ActionResult<bool>> DeletePostById(int id)
+        {
+            var isDeleted = await _postService.DeletePostByIdAsync(id);
+
+            return isDeleted;
         }
     }
 }

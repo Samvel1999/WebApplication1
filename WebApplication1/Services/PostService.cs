@@ -14,7 +14,6 @@ namespace WebApplication1.Services
 
         public async Task<List<Post>> GetPostsAsync(int? userId, string title)
         {
-            // Build the query string based on the parameters
             var query = "?";
 
             if (userId.HasValue)
@@ -27,18 +26,13 @@ namespace WebApplication1.Services
                 query += $"title={Uri.EscapeDataString(title)}&";
             }
 
-            // Remove the trailing '&' or '?' if no valid parameters
             if (query.EndsWith("&"))
             {
                 query = query.Remove(query.Length - 1);
             }
 
             var url = "https://jsonplaceholder.typicode.com/posts" + query;
-
-            // Call the external API
             var response = await _httpClient.GetStringAsync(url);
-
-            // Deserialize the JSON response into a list of Post objects
             var posts = JsonConvert.DeserializeObject<List<Post>>(response);
 
             return posts;
@@ -48,14 +42,19 @@ namespace WebApplication1.Services
         {
 
             var url = $"https://jsonplaceholder.typicode.com/posts/{id}";
-
-            // Call the external API
             var response = await _httpClient.GetStringAsync(url);
-
-            // Deserialize the JSON response into a list of Post objects
             var post = JsonConvert.DeserializeObject<Post>(response);
 
             return post;
+        }
+
+        public async Task<bool> DeletePostByIdAsync(int id)
+        {
+
+            var url = $"https://jsonplaceholder.typicode.com/posts/{id}";
+            var response = await _httpClient.DeleteAsync(url);
+
+            return response.IsSuccessStatusCode;
         }
     }
 }
