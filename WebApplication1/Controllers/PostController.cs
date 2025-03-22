@@ -26,5 +26,15 @@ namespace WebApplication1.Controllers
             // Return the posts
             return posts;
         }
+
+        // GET: api/posts?userId=1&title=qui%20est%20esse
+        [HttpGet("posts/{id}")]
+        public async Task<ActionResult<Post>> GetByIdPosts(int id)
+        {
+            var post = await _postService.GetPostByIdAsync(id);
+
+            // Return the posts
+            return post;
+        }
     }
 }

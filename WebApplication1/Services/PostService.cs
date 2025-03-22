@@ -43,5 +43,19 @@ namespace WebApplication1.Services
 
             return posts;
         }
+
+        public async Task<Post> GetPostByIdAsync(int id)
+        {
+
+            var url = $"https://jsonplaceholder.typicode.com/posts/{id}";
+
+            // Call the external API
+            var response = await _httpClient.GetStringAsync(url);
+
+            // Deserialize the JSON response into a list of Post objects
+            var post = JsonConvert.DeserializeObject<Post>(response);
+
+            return post;
+        }
     }
 }
